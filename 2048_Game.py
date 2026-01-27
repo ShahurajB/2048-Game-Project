@@ -17,6 +17,19 @@ def print_array():
         print("|")
         print("+----+----+----+----+")
 
+def restart():
+    print("In Restart function")
+
+    globals.arr[:] = 0
+    globals.score = 0
+
+    flag = generate_random_number()
+    if flag:
+        print_array()
+    else:
+        print("Game is Over , No space left")
+        exit()
+
 def display_and_random_num_gen():
     flag = generate_random_number()
     if flag:
@@ -52,10 +65,20 @@ def main():
                 'left': left_move,
                 'right': right_move
             }
-
+            # print(f'event name :{event.name}')
             if event.name == 'esc':
                 print("Exiting...")
                 break
+            elif event.name == "u":
+                undo_function()
+                print_array()
+            elif event.name == "r":
+                redo_function()
+                print_array()
+            elif event.name == "s":
+                restart()
+            elif event.name == "h":
+                help_function()
 
             elif event.name in move_map:
                 moved = move_map[event.name]()
