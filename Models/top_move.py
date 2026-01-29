@@ -18,21 +18,29 @@ def top_move():
         current_row = ROWS - 1
         for _ in range(ROWS):
             if arr[next_row][col] != 0 and arr[next_row][col] == arr[current_row][col]:
-                undo_arr[:] = arr
-                redo_arr[:] = 0
+                # undo_arr[:] = arr
+                # redo_arr[:] = 0
+                undo_arr.append(arr.copy())
+                redo_arr.clear()
                 value = arr[next_row][col] + arr[current_row][col]
                 arr[current_row][col] = value
                 arr[next_row][col] = 0
 
-                globals.undo_score = globals.score
-                globals.redo_score = 0
+                # globals.undo_score = globals.score
+                # globals.redo_score = 0
+
+                globals.undo_score.append(globals.score)
+                globals.redo_score.clear()
 
                 globals.score += value
                 moved = True
             else:
                 if arr[next_row][col] != 0 and arr[current_row][col] == 0:
-                    undo_arr[:] = arr
-                    redo_arr[:] = 0
+                    # undo_arr[:] = arr
+                    # redo_arr[:] = 0
+
+                    undo_arr.append(arr.copy())
+                    redo_arr.clear()
                     arr[current_row][col] = arr[next_row][col]
                     arr[next_row][col] = 0
                     moved = True
