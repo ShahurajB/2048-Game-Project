@@ -40,3 +40,6 @@ letter from key board , It will display the below output to play the game smooth
 2. Merge: When two tiles with the same number touch, they merge into one!
 3. Undo: Press U to undo your last move if you get into a tight spot.
 4. Goal: Reach the 2048 tile to win!
+
+## Sample Output
+![alt text](image.png)
