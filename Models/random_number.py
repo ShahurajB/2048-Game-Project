@@ -1,9 +1,12 @@
 import random
 import globals
+from log_system import logger
 
 ROWS = 4
 COLS = 4
 def generate_random_number():
+    logger.info("In generate_random_number function")
+
     empty_cells = []
 
     for row in range(ROWS):
@@ -23,7 +26,7 @@ def generate_random_number():
 
 
 def check_game_over():
-
+    logger.info("In check_game_over function")
     arr = globals.arr
 
     for row in range(ROWS):
@@ -34,6 +37,8 @@ def check_game_over():
     return False
 
 def is_array_full():
+    logger.info("In is_array_full function")
+    
     arr = globals.arr
 
     for row in range(ROWS):

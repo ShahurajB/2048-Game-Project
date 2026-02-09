@@ -1,8 +1,9 @@
 import globals
-
+from log_system import logger
 
 def left_move():
     print("Action: Turning Left...", end="\n")
+    logger.info("Action: Turning Left...")
     moved = False
     arr = globals.arr
     undo_arr = globals.undo_arr
@@ -46,6 +47,6 @@ def left_move():
 
             right -= 1
             left -= 1
-
+    logger.info("Action: Turning Left is done...")
     return moved
 

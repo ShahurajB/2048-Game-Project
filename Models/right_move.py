@@ -1,6 +1,8 @@
 import globals
+from log_system import logger
 
 def right_move():
+    logger.info("Action: Turning Right...")
     print("Action: Turning Right...", end="\n")
 
     moved = False
@@ -40,4 +42,5 @@ def right_move():
                     arr[row][col] = 0
                     moved = True
 
+    logger.info("Action: Turning Right is done ...")
     return moved

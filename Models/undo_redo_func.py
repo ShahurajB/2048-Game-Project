@@ -1,11 +1,16 @@
 import globals
+from log_system import logger
 
 def undo_function():
-    print("Inside undo function")
+    # print("Inside undo function")
+    logger.info("Inside undo function")
+
     if globals.undo_arr is None:
-        print("Nothing to undo")
+        # print("Nothing to undo")
+        logger.info("Nothing to undo")
     else:
-        print("Undo arry: {globals.undo_arr}")
+        # print("Undo arry: {globals.undo_arr}")
+        logger.info("Undo arry: {globals.undo_arr}")
         # globals.redo_arr = globals.arr.copy()
         # globals.arr[:] = globals.undo_arr
 
@@ -13,16 +18,19 @@ def undo_function():
         globals.arr = globals.undo_arr.pop()
 
     if globals.undo_score is None:
-        print("No score to undo")
+        # print("No score to undo")
+        logger.info("No score to undo")
     else:
         globals.redo_score.append(globals.score)
         # globals.redo_score = globals.score
         globals.score = globals.undo_score.pop()
 
 def redo_function():
-    print("Inside Redo function")
+    # print("Inside Redo function")
+    logger.info("Inside Redo function")
     if globals.redo_arr is None:
-        print("Nothing to redo")
+        # print("Nothing to redo")
+        logger.info("Nothing to redo")
     else:
         # globals.undo_arr = globals.arr.copy()
         # globals.arr[:] = globals.redo_arr
@@ -31,13 +39,16 @@ def redo_function():
         globals.arr = globals.redo_arr.pop()
 
     if globals.redo_score is None:
-        print("No score to redo")
+        # print("No score to redo")
+        logger.info("No score to redo")
     else:
         globals.undo_score.append(globals.score)
         # globals.undo_score = globals.score
         globals.score = globals.redo_score.pop()
 
 def help_function():
+    logger.info("In help function")
+    
     commands = {
 
         "h": "For help",

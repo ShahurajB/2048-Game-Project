@@ -1,9 +1,10 @@
 import globals
+from log_system import logger
 
 def top_move():
-
+    logger.info("Action: Moving Up...")
     print("Action: Moving Up...", end="\n")
-
+    
     arr = globals.arr
     undo_arr = globals.undo_arr
     redo_arr = globals.redo_arr
@@ -46,5 +47,5 @@ def top_move():
                     moved = True
             next_row -= 1
             current_row -= 1
-
+    logger.info("Action: Moving Up is done...")
     return moved

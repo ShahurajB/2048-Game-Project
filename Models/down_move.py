@@ -1,6 +1,8 @@
 import globals
+from log_system import logger
 
 def down_move():
+    logger.info("Action: Moving Down...")
     print("Action: Moving Down...", end="\n")
 
     arr = globals.arr
@@ -44,4 +46,5 @@ def down_move():
                     arr[row][col] = 0
                     moved = True
 
+    logger.info("Action: Moving Down is Done ...")
     return moved
