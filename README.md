@@ -52,7 +52,7 @@ python -m venv .venv
 Activate:
 
 ```powershell
-.venv\Scripts\Activate.ps1
+.venv\Scripts\Activate.ps1 or source .venv/bin/activate
 ```
 
 Install:
