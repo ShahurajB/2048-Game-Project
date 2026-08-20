@@ -1,2 +1,3 @@
-keyboard
-numpy
+streamlit>=1.40,<2.0
+numpy>=1.26,<3.0
+keyboard>=0.13.5

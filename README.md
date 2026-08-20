@@ -41,5 +41,64 @@ letter from key board , It will display the below output to play the game smooth
 3. Undo: Press U to undo your last move if you get into a tight spot.
 4. Goal: Reach the 2048 tile to win!
 
+## Run on Windows PowerShell
+
+Create the virtual environment:
+
+```powershell
+python -m venv .venv
+```
+
+Activate:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Install:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Start:
+
+```powershell
+streamlit run streamlit_app.py
+```
+
+Streamlit will show a local URL, normally:
+
+```text
+http://localhost:8501
+```
+
+## Controls
+
+The web version currently uses Python/Streamlit buttons:
+
+- UP
+- DOWN
+- LEFT
+- RIGHT
+- Undo
+- Redo
+- New Game
+
+The original terminal application remains available through:
+
+```powershell
+python 2048_Game.py
+```
+
+## Why buttons instead of keyboard arrows?
+
+A browser needs browser-side event handling to capture raw arrow-key events.
+This version intentionally contains **no custom JavaScript**, as requested.
+
+Once the Python-only version is verified, we can decide whether to:
+1. keep Streamlit buttons, or
+2. use a Python/browser framework that supports keyboard events differently.
+
 ## Sample Output
 ![alt text](image.png)
