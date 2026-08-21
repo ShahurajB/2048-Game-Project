@@ -36,7 +36,10 @@ def redo_function():
         # globals.arr[:] = globals.redo_arr
 
         globals.undo_arr.append(globals.arr.copy())
-        globals.arr = globals.redo_arr.pop()
+        try:
+            globals.arr = globals.redo_arr.pop()
+        except IndexError:
+            logger.info("Nothing to redo")
 
     if globals.redo_score is None:
         # print("No score to redo")
@@ -44,7 +47,10 @@ def redo_function():
     else:
         globals.undo_score.append(globals.score)
         # globals.undo_score = globals.score
-        globals.score = globals.redo_score.pop()
+        try:
+            globals.score = globals.redo_score.pop()
+        except IndexError:
+            logger.info("No score to redo")
 
 def help_function():
     logger.info("In help function")

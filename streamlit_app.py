@@ -17,7 +17,7 @@ from Models import (
 
 
 st.set_page_config(
-    page_title="2048 - Python Edition",
+    page_title="2048-Game",
     page_icon="🎮",
     layout="centered",
 )
@@ -188,7 +188,7 @@ st.markdown(
 
 st.markdown('<div class="game-title">2048</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="game-subtitle">Python version — powered by your original game logic</div>',
+    '<div class="game-subtitle">Python version — powered by YaanTechKnow </div>',
     unsafe_allow_html=True,
 )
 
@@ -281,6 +281,5 @@ if is_array_full() and not check_game_over():
 
 st.markdown("---")
 st.caption(
-    "This web version uses your original Models/ movement, random-number, "
-    "undo and redo functions. No custom JavaScript file is used."
+    "Powered by YaanTechKnow."
 )
