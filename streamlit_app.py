@@ -22,11 +22,11 @@ st.set_page_config(
     layout="centered",
 )
 
+image = "Logo.png"
+st.logo(image, size="large")
+
 # ---------------------------------------------------------------------------
 # Session-state bridge
-#
-# Your original game uses module-level state in globals.py.
-# We do NOT refactor that code. Streamlit reruns the Python script after
 # every button click, so we copy the current game state into Streamlit's
 # session state before each rerun and restore it before calling your
 # original movement/undo/redo functions.
@@ -103,7 +103,7 @@ if "won" not in st.session_state:
 
 
 # ---------------------------------------------------------------------------
-# Styling - CSS is embedded only for visual appearance. No JavaScript is used.
+# Styling - CSS is embedded only for visual appearance.
 # ---------------------------------------------------------------------------
 st.markdown(
     """
@@ -266,18 +266,68 @@ with middle[2]:
         perform_move(right_move)
         st.rerun()
 
+st.markdown("""
+    <style>
+    /* Make the game wrapper relative so the popup positions over it */
+    .game-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px; /* Match your game board width */
+        margin: 0 auto;
+    }
+    
+    /* Absolute overlay positioning */
+    .win-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(250, 248, 239, 0.9); /* Semi-transparent background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999; /* Ensures it renders in front */
+        border-radius: 8px;
+    }
+
+    /* Styled victory message */
+    .status {
+        color: #2e7d32; /* Rich green color */
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+    }
+        /* Styled victory message */
+    .over-status {
+        color: #B71C1C; /* Dark Ruby Red color */
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 if check_game_over():
-    st.markdown(
-        '<div class="status">🎉 Congratulations! You reached 2048!</div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown("""
+            <div class="game-container">
+                <div class="win-overlay">
+                    <div class="status">🎉 Congratulations!<br>You reached 2048!</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
 if is_array_full() and not check_game_over():
-    st.markdown(
-        '<div class="status">Game Over — start a new game!</div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown("""
+        <div class="game-container">
+            <div class="win-overlay">
+                <div class="over-status"> Game Over — start a new game!!</div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
 st.caption(
