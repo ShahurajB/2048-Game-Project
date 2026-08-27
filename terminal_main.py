@@ -1,6 +1,6 @@
 
 import keyboard
-from game_engine import *
+from engine import *
 import configs.globals as globals
 from log.log_system import logger
 
