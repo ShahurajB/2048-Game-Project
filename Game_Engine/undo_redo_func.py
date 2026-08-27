@@ -1,5 +1,5 @@
-import globals
-from log_system import logger
+import configs.globals as globals
+from log.log_system import logger
 
 def undo_function():
     # print("Inside undo function")

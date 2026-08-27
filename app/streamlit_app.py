@@ -1,9 +1,14 @@
-import copy
 import numpy as np
 import streamlit as st
+import sys
+from pathlib import Path
 
-import globals
-from Models import (
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+print(f'project path: {PROJECT_ROOT}')
+sys.path.insert(0, str(PROJECT_ROOT))
+
+import configs.globals as globals
+from Game_Engine import (
     left_move,
     right_move,
     top_move,
@@ -22,7 +27,7 @@ st.set_page_config(
     layout="centered",
 )
 
-image = "Logo.png"
+image = "images/Logo.png"
 st.logo(image, size="large")
 
 # ---------------------------------------------------------------------------

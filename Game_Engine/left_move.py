@@ -1,5 +1,5 @@
-import globals
-from log_system import logger
+import configs.globals as globals
+from log.log_system import logger
 
 def left_move():
     print("Action: Turning Left...", end="\n")

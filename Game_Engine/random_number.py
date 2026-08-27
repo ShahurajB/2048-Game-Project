@@ -1,6 +1,6 @@
 import random
-import globals
-from log_system import logger
+import configs.globals as globals
+from log.log_system import logger
 
 ROWS = 4
 COLS = 4

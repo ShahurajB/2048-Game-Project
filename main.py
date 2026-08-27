@@ -1,8 +1,8 @@
 
 import keyboard
-from Models import *
-import globals
-from log_system import logger
+from Game_Engine import *
+import configs.globals as globals
+from log.log_system import logger
 
 def print_array():
     print(f'Your Score: {globals.score}', end="\n")
