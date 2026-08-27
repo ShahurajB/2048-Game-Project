@@ -8,7 +8,7 @@ print(f'project path: {PROJECT_ROOT}')
 sys.path.insert(0, str(PROJECT_ROOT))
 
 import configs.globals as globals
-from Game_Engine import (
+from game_engine import (
     left_move,
     right_move,
     top_move,
