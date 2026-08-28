@@ -96,7 +96,7 @@ def main():
                 moved = move_map[event.name]()
                 # print(f"return value :{moved}")
 
-                if check_game_over():
+                if has_won():
                     # print("Congratulations.. You Won the game!!!")
                     logger.info("Congratulations.. You Won the game!!!")
                     print_array()
@@ -107,7 +107,7 @@ def main():
                         break
                 else:
                     print_array()
-                    if is_array_full():
+                    if is_board_full():
                         # print("Game is Over , Array is full, No space left")
                         logger.info("Game is Over , Array is full, No space left")
                         exit()

@@ -25,8 +25,8 @@ def generate_random_number():
     return True
 
 
-def check_game_over():
-    logger.info("In check_game_over function")
+def has_won():
+    logger.info("In has_won function")
     arr = globals.arr
 
     for row in range(ROWS):
@@ -36,8 +36,8 @@ def check_game_over():
 
     return False
 
-def is_array_full():
-    logger.info("In is_array_full function")
+def is_board_full():
+    logger.info("In is_board_full function")
     
     arr = globals.arr
 

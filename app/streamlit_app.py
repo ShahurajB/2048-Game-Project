@@ -4,7 +4,6 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-print(f'project path: {PROJECT_ROOT}')
 sys.path.insert(0, str(PROJECT_ROOT))
 
 import configs.globals as globals
@@ -14,8 +13,8 @@ from engine import (
     top_move,
     down_move,
     generate_random_number,
-    check_game_over,
-    is_array_full,
+    has_won,
+    is_board_full,
     undo_function,
     redo_function,
 )
@@ -84,7 +83,7 @@ def perform_move(move_function):
 
     save_globals_to_session()
 
-    if check_game_over():
+    if has_won():
         st.session_state.won = True
 
 
@@ -113,78 +112,177 @@ if "won" not in st.session_state:
 st.markdown(
     """
     <style>
+
+    /* Reduce overall Streamlit spacing */
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 600px;
+    }
+
+    /* Reduce vertical spacing between elements */
+    div[data-testid="stVerticalBlock"] {
+        gap: 0.35rem;
+    }
+
+    /* Title */
     .game-title {
         text-align: center;
-        font-size: 72px;
-        font-weight: 900;
+        font-size: 30px;
+        font-weight: 600;
         color: #776e65;
-        margin-bottom: 0;
+        margin: 0;
+        padding: 0;
+        line-height: 1.0;
     }
 
     .game-subtitle {
         text-align: center;
         color: #776e65;
-        margin-top: -12px;
-        margin-bottom: 20px;
+        font-size: 13px;
+        margin: 0 0 4px 0;
+        padding: 0;
+    }
+
+    /* Metrics */
+    div[data-testid="stMetric"] {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    div[data-testid="stMetricLabel"] {
+        font-size: 11px !important;
+    }
+
+    div[data-testid="stMetricValue"] {
+        font-size: 20px !important;
+    }
+
+    /* Buttons */
+    div[data-testid="stButton"] {
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     div[data-testid="stButton"] button {
         width: 100%;
-        min-height: 46px;
-        border-radius: 8px;
+        min-height: 38px;
+        height: 38px;
+        padding: 2px 5px;
+        border-radius: 7px;
+        font-size: 13px;
         font-weight: 700;
     }
 
+    /* 2048 board */
+    .board {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        background: #bbada0;
+        border-radius: 6px;
+        padding: 5px;
+        width: 220px;
+        height: 220px;
+        margin: 4px auto 5px auto;
+        box-sizing: border-box;
+    }
+
+    /* Tiles */
     .tile {
-        aspect-ratio: 1 / 1;
-        border-radius: 8px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
-        font-weight: 800;
+        font-size: 16px;
+        font-weight: 600;
         background: #cdc1b4;
         color: #776e65;
     }
 
-    .tile-2 { background: #eee4da; }
-    .tile-4 { background: #ede0c8; }
-    .tile-8 { background: #f2b179; color: #f9f6f2; }
-    .tile-16 { background: #f59563; color: #f9f6f2; }
-    .tile-32 { background: #f67c5f; color: #f9f6f2; }
-    .tile-64 { background: #f65e3b; color: #f9f6f2; }
-    .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 28px; }
-    .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 28px; }
-    .tile-512 { background: #edc850; color: #f9f6f2; font-size: 28px; }
-    .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 23px; }
-    .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 23px; }
-
-    .board {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        background: #bbada0;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 12px;
-        max-width: 450px;
-        margin-left: auto;
-        margin-right: auto;
+    .tile-2 {
+        background: #eee4da;
     }
 
-    .status {
+    .tile-4 {
+        background: #ede0c8;
+    }
+
+    .tile-8 {
+        background: #f2b179;
+        color: #f9f6f2;
+    }
+
+    .tile-16 {
+        background: #f59563;
+        color: #f9f6f2;
+    }
+
+    .tile-32 {
+        background: #f67c5f;
+        color: #f9f6f2;
+    }
+
+    .tile-64 {
+        background: #f65e3b;
+        color: #f9f6f2;
+    }
+
+    .tile-128 {
+        background: #edcf72;
+        color: #f9f6f2;
+        font-size: 14px;
+    }
+
+    .tile-256 {
+        background: #edcc61;
+        color: #f9f6f2;
+        font-size: 14px;
+    }
+
+    .tile-512 {
+        background: #edc850;
+        color: #f9f6f2;
+        font-size: 14px;
+    }
+
+    .tile-1024 {
+        background: #edc53f;
+        color: #f9f6f2;
+        font-size: 12px;
+    }
+
+    .tile-2048 {
+        background: #edc22e;
+        color: #f9f6f2;
+        font-size: 12px;
+    }
+
+    /* Game status */
+    .game-message {
         text-align: center;
-        font-size: 22px;
-        font-weight: 800;
-        color: #776e65;
-        padding: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 3px;
+        margin: 0;
     }
 
-    @media (max-width: 600px) {
-        .game-title { font-size: 56px; }
-        .tile { font-size: 24px; }
-        .tile-128, .tile-256, .tile-512 { font-size: 21px; }
-        .tile-1024, .tile-2048 { font-size: 17px; }
+    .win-message {
+        color: #2e7d32;
+    }
+
+    .over-message {
+        color: #b71c1c;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        font-size: 10px;
+        color: #888;
+        margin-top: 3px;
     }
     </style>
     """,
@@ -316,7 +414,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-if check_game_over():
+if has_won():
     st.markdown("""
             <div class="game-container">
                 <div class="win-overlay">
@@ -325,7 +423,7 @@ if check_game_over():
             </div>
         """, unsafe_allow_html=True)
 
-if is_array_full() and not check_game_over():
+if is_board_full() and not has_won():
     st.markdown("""
         <div class="game-container">
             <div class="win-overlay">
