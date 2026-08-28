@@ -15,7 +15,10 @@ def undo_function():
         # globals.arr[:] = globals.undo_arr
 
         globals.redo_arr.append(globals.arr.copy())
-        globals.arr = globals.undo_arr.pop()
+        try:
+            globals.arr = globals.undo_arr.pop()
+        except IndexError:
+            logger.info("Nothing to undo")
 
     if globals.undo_score is None:
         # print("No score to undo")
@@ -23,7 +26,10 @@ def undo_function():
     else:
         globals.redo_score.append(globals.score)
         # globals.redo_score = globals.score
-        globals.score = globals.undo_score.pop()
+        try:
+            globals.score = globals.undo_score.pop()
+        except IndexError:
+            logger.info("No score to undo")
 
 def redo_function():
     # print("Inside Redo function")
